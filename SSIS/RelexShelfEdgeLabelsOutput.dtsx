@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="RelexShelfEdgeLabelsOutput"
   DTS:PackageType="5"
-  DTS:VersionBuild="5"
-  DTS:VersionGUID="{82E10F22-BE00-49AE-84D6-21B3D30D278D}">
+  DTS:VersionBuild="28"
+  DTS:VersionGUID="{530E7469-5AC1-45D4-A56D-08A14857F020}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -46,7 +46,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1252"
-          DTS:ConnectionString="C:\applications\development\RelexShelfLabels\RelexShelfEdgeLabels_IN_20250820145727.txt">
+          DTS:ConnectionString="C:\applications\development\RelexShelfLabels\RelexShelfEdgeLabels_IN_20250821155503.txt">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -100,199 +100,356 @@
       <DTS:VariableValue
         DTS:DataType="8">IN</DTS:VariableValue>
     </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CC3133C9-F015-445D-9B5E-CF56B48D3A6E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceFileName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{91587294-A3DB-4A25-8589-A276F8F9ADF3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;INSERT INTO dbo.relex_outbound_shelf_edge_label_extract_log ( source_file_name, sys_inserted_dt, extracted_tsp ) VALUES ('&quot; + @[User::SourceFileName] + &quot;', '&quot; + @[User::SysInsertedDt] + &quot;', GETDATE() );&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SQLInsertStmt">
+      <DTS:VariableValue
+        DTS:DataType="8">INSERT INTO dbo.relex_outbound_shelf_edge_label_extract_log ( source_file_name, sys_inserted_dt, extracted_tsp ) VALUES ('', '', GETDATE() );</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{241D3FD6-794C-41B7-9B7F-2A1A2378083C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC dbo.SSIS_RelexShelfEdgeLabelExtract @sourceFileName = '&quot; + @[User::SourceFileName] + &quot;', @sysInsertedDt = '&quot; + @[User::SysInsertedDt] + &quot;';&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SQL_QueryStmt">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC dbo.SSIS_RelexShelfEdgeLabelExtract @sourceFileName = '', @sysInsertedDt = '';</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F82D917C-2969-4E40-BD78-06C75ADFC38E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SysInsertedDt">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0ABAB3CE-0CEA-4839-8816-2562E030BE01}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="UnprocessedSourceFiles">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Get Data and Output to CSV"
-      DTS:CreationName="Microsoft.Pipeline"
-      DTS:Description="Data Flow Task"
-      DTS:DTSID="{AE0810BE-FCB8-4AAE-832D-697C06291945}"
-      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6F00D16F-86B8-46F8-9DAC-D8563607EFCF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Get Data and Output to CSV"
-      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
-        <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\Get Data and Output to CSV\Flat File Destination"
-              componentClassID="Microsoft.FlatFileDestination"
-              contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
-              description="Flat File Destination"
-              localeId="1033"
-              name="Flat File Destination"
-              version="1">
-              <properties>
-                <property
-                  dataType="System.Boolean"
-                  description="Specifies whether the data will overwrite or append to the destination file."
-                  name="Overwrite">true</property>
-                <property
-                  dataType="System.Null"
-                  description="Specifies the text to write to the destination file before any data is written."
-                  expressionType="Notify"
-                  name="Header" />
-                <property
-                  dataType="System.Boolean"
-                  description="When text qualifier is enabled, specifies whether the text qualifier in the data written to the destination file will be escaped or not."
-                  name="EscapeQualifier">false</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Get Data and Output to CSV\Flat File Destination.Connections[FlatFileConnection]"
-                  connectionManagerID="Package.ConnectionManagers[OutputFile]"
-                  connectionManagerRefId="Package.ConnectionManagers[OutputFile]"
-                  name="FlatFileConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input]"
-                  hasSideEffects="true"
-                  name="Flat File Destination Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[outputCSV]"
-                      cachedCodepage="1252"
-                      cachedDataType="text"
-                      cachedName="outputCSV"
-                      externalMetadataColumnId="Package\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
-                      lineageId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[outputCSV]" />
-                  </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
-                      codePage="1252"
-                      dataType="str"
-                      length="255"
-                      name="Column 0" />
-                  </externalMetadataColumns>
-                </input>
-              </inputs>
-            </component>
-            <component
-              refId="Package\Get Data and Output to CSV\OLE DB Source"
-              componentClassID="Microsoft.OLEDBSource"
-              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
-              description="OLE DB Source"
-              name="OLE DB Source"
-              usesDispositions="true"
-              version="7">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset"></property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXEC dbo.SSIS_RelexShelfEdgeLabelExtract</property>
-                <property
-                  dataType="System.String"
-                  description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">2</property>
-                <property
-                  dataType="System.String"
-                  description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping"></property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Get Data and Output to CSV\OLE DB Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[CK_Reporting]"
-                  connectionManagerRefId="Package.ConnectionManagers[CK_Reporting]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output]"
-                  name="OLE DB Source Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[outputCSV]"
-                      codePage="1252"
-                      dataType="text"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[outputCSV]"
-                      lineageId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[outputCSV]"
-                      name="outputCSV"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[outputCSV]"
-                      codePage="1252"
-                      dataType="text"
-                      name="outputCSV" />
-                  </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output]"
-                  isErrorOut="true"
-                  name="OLE DB Source Error Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[outputCSV]"
-                      codePage="1252"
-                      dataType="text"
-                      lineageId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[outputCSV]"
-                      name="outputCSV" />
-                    <outputColumn
-                      refId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-          </components>
-          <paths>
-            <path
-              refId="Package\Get Data and Output to CSV.Paths[OLE DB Source Output]"
-              endId="Package\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input]"
-              name="OLE DB Source Output"
-              startId="Package\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output]" />
-          </paths>
-        </pipeline>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{301A8C8C-8B96-4135-9E3A-4B7B321A8428}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="SELECT DISTINCT sel.source_file_name, sel.sys_inserted_dt&#xA;FROM dbo.relex_outbound_shelf_edge_labels sel&#xA;WHERE NOT EXISTS&#xA;(&#xA;&#x9;SELECT 1&#xA;&#x9;FROM dbo.relex_outbound_shelf_edge_label_extract_log l&#xA;&#x9;where  l.source_file_name = sel.source_file_name AND l.sys_inserted_dt = sel.sys_inserted_dt&#xA;)&#xA;ORDER BY source_file_name DESC;"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::UnprocessedSourceFiles" />
+        </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\For Each Unprocessed Source File"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Iterates through unprocessed files and outputs a CSV file"
+      DTS:DTSID="{22AF6F06-7B85-41FA-A3D7-77B1028C7431}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="For Each Unprocessed Source File">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{9C2D447D-DA74-4351-AA43-97C83E5F538B}"
+        DTS:ObjectName="{9C2D447D-DA74-4351-AA43-97C83E5F538B}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::UnprocessedSourceFiles" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{AE0810BE-FCB8-4AAE-832D-697C06291945}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Data and Output to CSV"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Flat File Destination"
+                  localeId="1033"
+                  name="Flat File Destination"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether the data will overwrite or append to the destination file."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the text to write to the destination file before any data is written."
+                      expressionType="Notify"
+                      name="Header" />
+                    <property
+                      dataType="System.Boolean"
+                      description="When text qualifier is enabled, specifies whether the text qualifier in the data written to the destination file will be escaped or not."
+                      name="EscapeQualifier">false</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[OutputFile]"
+                      connectionManagerRefId="Package.ConnectionManagers[OutputFile]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input]"
+                      hasSideEffects="true"
+                      name="Flat File Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[outputCSV]"
+                          cachedCodepage="1252"
+                          cachedDataType="text"
+                          cachedName="outputCSV"
+                          externalMetadataColumnId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
+                          lineageId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[outputCSV]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Column 0]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="Column 0" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXEC dbo.SSIS_RelexShelfEdgeLabelExtract ?, ?</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable">User::SQL_QueryStmt</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping">"0:Input",{CC3133C9-F015-445D-9B5E-CF56B48D3A6E};"1:Input",{F82D917C-2969-4E40-BD78-06C75ADFC38E};</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[CK_Reporting]"
+                      connectionManagerRefId="Package.ConnectionManagers[CK_Reporting]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[outputCSV]"
+                          codePage="1252"
+                          dataType="text"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[outputCSV]"
+                          lineageId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[outputCSV]"
+                          name="outputCSV"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[outputCSV]"
+                          codePage="1252"
+                          dataType="text"
+                          name="outputCSV" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[outputCSV]"
+                          codePage="1252"
+                          dataType="text"
+                          lineageId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[outputCSV]"
+                          name="outputCSV" />
+                        <outputColumn
+                          refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\For Each Unprocessed Source File\Get Data and Output to CSV.Paths[OLE DB Source Output]"
+                  endId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination.Inputs[Flat File Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\For Each Unprocessed Source File\Log Processed Source File"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{AC0129E5-50E0-4741-8718-CF418B5BB4B6}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Log Processed Source File"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{301A8C8C-8B96-4135-9E3A-4B7B321A8428}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::SQLInsertStmt" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\For Each Unprocessed Source File.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{5C7B20B8-1D44-45FD-B1CE-F0F45F0C6DBC}"
+          DTS:From="Package\For Each Unprocessed Source File\Get Data and Output to CSV"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\For Each Unprocessed Source File\Log Processed Source File" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{22CC9EA6-B24D-464C-9E52-A58F6D91A679}"
+          DTS:ObjectName="{22CC9EA6-B24D-464C-9E52-A58F6D91A679}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::SourceFileName" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{C37D7547-465C-4C6E-8B2D-74649364CCA2}"
+          DTS:ObjectName="{C37D7547-465C-4C6E-8B2D-74649364CCA2}"
+          DTS:ValueIndex="1"
+          DTS:VariableName="User::SysInsertedDt" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
   </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{84A27204-098C-4A96-A63A-4F1C6654CE9A}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\For Each Unprocessed Source File" />
+  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -304,30 +461,104 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="87.5,11.5" />
         <NodeLayout
           Size="218,42"
-          Id="Package\Get Data and Output to CSV"
-          TopLeft="389,139" />
+          Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV"
+          TopLeft="57,31" />
+        <NodeLayout
+          Size="211,42"
+          Id="Package\For Each Unprocessed Source File\Log Processed Source File"
+          TopLeft="62,115" />
+        <EdgeLayout
+          Id="Package\For Each Unprocessed Source File.PrecedenceConstraints[Constraint]"
+          TopLeft="166.75,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="340,229"
+          Size="340,272"
+          Id="Package\For Each Unprocessed Source File"
+          TopLeft="5.5,104.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="174,53.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51"
+              Start="0,0"
+              End="0,43.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <GroupLayout
+          Text="Get Source Files and Create Output Files for Each"
+          ParentId="Package"
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="351,498"
+          Size="351,541"
+          Id="3f86986d-26b5-435c-b021-e28401833119"
+          TopLeft="508.5,129.5">
+          <GroupLayout.ChildrenIds>
+            <s:String>Package\Execute SQL Task</s:String>
+            <s:String>Package\For Each Unprocessed Source File</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint]</s:String>
+          </GroupLayout.ChildrenIds>
+        </GroupLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Get Data and Output to CSV">
+    design-time-name="Package\For Each Unprocessed Source File\Get Data and Output to CSV">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="157,42"
-          Id="Package\Get Data and Output to CSV\OLE DB Source"
-          TopLeft="169,41" />
+          Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source"
+          TopLeft="556,168" />
         <NodeLayout
           Size="176,42"
-          Id="Package\Get Data and Output to CSV\Flat File Destination"
-          TopLeft="158,142" />
+          Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination"
+          TopLeft="545,269" />
         <EdgeLayout
-          Id="Package\Get Data and Output to CSV.Paths[OLE DB Source Output]"
-          TopLeft="246.75,83">
+          Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV.Paths[OLE DB Source Output]"
+          TopLeft="633.75,210">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -351,7 +582,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Get Data and Output to CSV\OLE DB Source">
+    design-time-name="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
