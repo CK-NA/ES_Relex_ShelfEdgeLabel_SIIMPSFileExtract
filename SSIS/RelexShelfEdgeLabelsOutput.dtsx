@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="RelexShelfEdgeLabelsOutput"
   DTS:PackageType="5"
-  DTS:VersionBuild="28"
-  DTS:VersionGUID="{530E7469-5AC1-45D4-A56D-08A14857F020}">
+  DTS:VersionBuild="53"
+  DTS:VersionGUID="{EAA2C536-F3C6-40A4-BAE6-2C4D093F2D21}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
         <DTS:ConnectionManager
           DTS:ConnectRetryCount="1"
           DTS:ConnectRetryInterval="5"
-          DTS:ConnectionString="Data Source=PDIENTSQLDEV2.corp.circlek.com;Initial Catalog=CK_Reporting;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package-{301A8C8C-8B96-4135-9E3A-4B7B321A8428}PDIENTSQLDEV2.corp.circlek.com.CK_Reporting;Auto Translate=False;" />
+          DTS:ConnectionString="Data Source=PDIREPLICA.corp.circlek.com;Initial Catalog=CK_Reporting;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{301A8C8C-8B96-4135-9E3A-4B7B321A8428}PDIENTSQLDEV2.corp.circlek.com.CK_Reporting;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -37,7 +37,7 @@
       DTS:DTSID="{E2BB1A92-7FD7-40F9-909C-50CAC7358112}"
       DTS:ObjectName="OutputFile">
       <DTS:PropertyExpression
-        DTS:Name="ConnectionString">"C:\\applications\\development\\RelexShelfLabels\\" + @[User::OutputFileNamePrefix]  +"_IN_" + (DT_WSTR,4) YEAR( GETDATE() ) + RIGHT("0" + (DT_WSTR,2)MONTH( GETDATE()), 2 ) + RIGHT("0" + (DT_WSTR,2) DAY(GETDATE()), 2 ) + RIGHT("0" + (DT_WSTR,2)DATEPART("hh",GETDATE()), 2) + RIGHT("0" + (DT_WSTR,2)DATEPART("n", GETDATE()), 2) + RIGHT("0" + (DT_WSTR,2) DATEPART("ss", GETDATE()), 2) + ".txt"</DTS:PropertyExpression>
+        DTS:Name="ConnectionString">@[User::rootOutputFilePath]  + @[User::OutputFileNamePrefix]  +"_IN_" + (DT_WSTR,4) YEAR( GETDATE() ) + RIGHT("0" + (DT_WSTR,2)MONTH( GETDATE()), 2 ) + RIGHT("0" + (DT_WSTR,2) DAY(GETDATE()), 2 ) + RIGHT("0" + (DT_WSTR,2)DATEPART("hh",GETDATE()), 2) + RIGHT("0" + (DT_WSTR,2)DATEPART("n", GETDATE()), 2) + RIGHT("0" + (DT_WSTR,2) DATEPART("ss", GETDATE()), 2) + ".txt"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:Format="Delimited"
@@ -46,7 +46,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1252"
-          DTS:ConnectionString="C:\applications\development\RelexShelfLabels\RelexShelfEdgeLabels_IN_20250821155503.txt">
+          DTS:ConnectionString="\\PDIFS\EntData\Imports\IN\Relex\RelexShelfEdgeLabels_IN_20250910134948.txt">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -54,7 +54,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="Column 0"
-              DTS:DTSID="{6A2E29D5-9939-41C1-A3F1-DCCCBBC2DF89}"
+              DTS:DTSID="{24422F2D-7034-4B02-87F6-AF7C973AB601}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -69,7 +69,7 @@
       DTS:ObjectName="CK_Reporting_ConnectionString">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">Data Source=PDIENTSQLDEV2.corp.circlek.com;Initial Catalog=CK_Reporting;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package-{301A8C8C-8B96-4135-9E3A-4B7B321A8428}PDIENTSQLDEV2.corp.circlek.com.CK_Reporting;Auto Translate=False;</DTS:Property>
+        DTS:Name="ParameterValue">Data Source=PDIREPLICA.corp.circlek.com;Initial Catalog=CK_Reporting;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{301A8C8C-8B96-4135-9E3A-4B7B321A8428}PDIENTSQLDEV2.corp.circlek.com.CK_Reporting;</DTS:Property>
     </DTS:PackageParameter>
     <DTS:PackageParameter
       DTS:CreationName=""
@@ -78,7 +78,7 @@
       DTS:ObjectName="OutputFile_ConnectionString">
       <DTS:Property
         DTS:DataType="8"
-        DTS:Name="ParameterValue">C:\CK\Relex\PDIShelfLabelExtract\RelexShelfLabels.txt</DTS:Property>
+        DTS:Name="ParameterValue">\\PDIFS\EntData\Imports\IN\Relex\</DTS:Property>
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables>
@@ -99,6 +99,15 @@
       DTS:ObjectName="PDIModule">
       <DTS:VariableValue
         DTS:DataType="8">IN</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A9CF1431-9721-45AE-82DF-A6E01B6C4D49}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="rootOutputFilePath">
+      <DTS:VariableValue
+        DTS:DataType="8">\\PDIFS\EntData\Imports\IN\Relex\</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -163,26 +172,19 @@
   </DTS:Variables>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Execute SQL Task"
+      DTS:refId="Package\Data Table Maintenance"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{6F00D16F-86B8-46F8-9DAC-D8563607EFCF}"
+      DTS:Description="Deletes records more than 7 days old"
+      DTS:DTSID="{41785220-4D03-4605-9BC4-E0DDBA116B10}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Execute SQL Task"
-      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ObjectName="Data Table Maintenance"
       DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{301A8C8C-8B96-4135-9E3A-4B7B321A8428}"
-          SQLTask:BypassPrepare="False"
-          SQLTask:SqlStatementSource="SELECT DISTINCT sel.source_file_name, sel.sys_inserted_dt&#xA;FROM dbo.relex_outbound_shelf_edge_labels sel&#xA;WHERE NOT EXISTS&#xA;(&#xA;&#x9;SELECT 1&#xA;&#x9;FROM dbo.relex_outbound_shelf_edge_label_extract_log l&#xA;&#x9;where  l.source_file_name = sel.source_file_name AND l.sys_inserted_dt = sel.sys_inserted_dt&#xA;)&#xA;ORDER BY source_file_name DESC;"
-          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-          <SQLTask:ResultBinding
-            SQLTask:ResultName="0"
-            SQLTask:DtsVariableName="User::UnprocessedSourceFiles" />
-        </SQLTask:SqlTaskData>
+          SQLTask:SqlStatementSource="EXEC dbo.SSIS_RelexShelfEdgeLabel_DataMaintenance" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -225,8 +227,7 @@
                   contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
                   description="Flat File Destination"
                   localeId="1033"
-                  name="Flat File Destination"
-                  version="1">
+                  name="Flat File Destination">
                   <properties>
                     <property
                       dataType="System.Boolean"
@@ -300,7 +301,7 @@
                       dataType="System.String"
                       description="The SQL command to be executed."
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">EXEC dbo.SSIS_RelexShelfEdgeLabelExtract ?, ?</property>
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXEC dbo.SSIS_RelexShelfEdgeLabelExtract ?, ?</property>
                     <property
                       dataType="System.String"
                       description="The variable that contains the SQL command to be executed."
@@ -439,16 +440,47 @@
           DTS:VariableName="User::SysInsertedDt" />
       </DTS:ForEachVariableMappings>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get Source Files to Process"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6F00D16F-86B8-46F8-9DAC-D8563607EFCF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get Source Files to Process"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{301A8C8C-8B96-4135-9E3A-4B7B321A8428}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="SELECT DISTINCT sel.source_file_name, sel.sys_inserted_dt&#xA;FROM dbo.relex_outbound_shelf_edge_labels sel&#xA;WHERE NOT EXISTS&#xA;(&#xA;&#x9;SELECT 1&#xA;&#x9;FROM dbo.relex_outbound_shelf_edge_label_extract_log l&#xA;&#x9;where  l.source_file_name = sel.source_file_name AND l.sys_inserted_dt = sel.sys_inserted_dt&#xA;)&#xA;ORDER BY source_file_name DESC;"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::UnprocessedSourceFiles" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
       DTS:DTSID="{84A27204-098C-4A96-A63A-4F1C6654CE9A}"
-      DTS:From="Package\Execute SQL Task"
+      DTS:From="Package\Get Source Files to Process"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
       DTS:To="Package\For Each Unprocessed Source File" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{3EBB9F1C-07A7-4A40-BD11-56499B58F325}"
+      DTS:From="Package\Data Table Maintenance"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Get Source Files to Process" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -461,11 +493,11 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
         <NodeLayout
           Size="170,42"
-          Id="Package\Execute SQL Task"
-          TopLeft="87.5,11.5" />
+          Id="Package\Get Source Files to Process"
+          TopLeft="85.5,103.5" />
         <NodeLayout
           Size="218,42"
           Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV"
@@ -499,24 +531,50 @@
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="340,229"
-          Size="340,272"
+          PanelSize="336,229"
+          Size="336,272"
           Id="Package\For Each Unprocessed Source File"
-          TopLeft="5.5,104.5" />
+          TopLeft="7.5,186.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="174,53.5">
+          TopLeft="173,145.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,51"
+              EndConnector="0,41"
               Start="0,0"
-              End="0,43.5">
+              End="0,33.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,43.5" />
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Data Table Maintenance"
+          TopLeft="87,23" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="171.25,65">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.5"
+              Start="0,0"
+              End="0,31">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -530,14 +588,16 @@
           ParentId="Package"
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="351,498"
-          Size="351,541"
+          PanelSize="351,514"
+          Size="351,556"
           Id="3f86986d-26b5-435c-b021-e28401833119"
-          TopLeft="508.5,129.5">
+          TopLeft="441.5,148.5">
           <GroupLayout.ChildrenIds>
-            <s:String>Package\Execute SQL Task</s:String>
+            <s:String>Package\Get Source Files to Process</s:String>
             <s:String>Package\For Each Unprocessed Source File</s:String>
             <s:String>Package.PrecedenceConstraints[Constraint]</s:String>
+            <s:String>Package\Data Table Maintenance</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 1]</s:String>
           </GroupLayout.ChildrenIds>
         </GroupLayout>
       </GraphLayout>
@@ -551,14 +611,14 @@
         <NodeLayout
           Size="157,42"
           Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV\OLE DB Source"
-          TopLeft="556,168" />
+          TopLeft="558,168" />
         <NodeLayout
           Size="176,42"
           Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV\Flat File Destination"
           TopLeft="545,269" />
         <EdgeLayout
           Id="Package\For Each Unprocessed Source File\Get Data and Output to CSV.Paths[OLE DB Source Output]"
-          TopLeft="633.75,210">
+          TopLeft="634.75,210">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
