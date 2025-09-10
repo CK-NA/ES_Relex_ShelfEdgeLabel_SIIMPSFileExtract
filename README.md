@@ -99,13 +99,13 @@ WHERE NOT EXISTS
 )
 ORDER BY source_file_name DESC;
 ```
-__ForEach Loop: For Each Unprocessed Source File__
+__Step: ForEach Loop: For Each Unprocessed Source File__
 
 __Data Flow Task: Get Data and Output to CSV__
 
 __OLE DB Source:__
 
-Selection based on query variable, where the SourceFileName variable and the SysInsertedDt variable are populated from the previous query 
+Selection based on query variable, where the SourceFileName variable and the SysInsertedDt variable are populated from the previous query in the ForEach loop
 ```
 "EXEC dbo.SSIS_RelexShelfEdgeLabelExtract @sourceFileName = '" + @[User::SourceFileName] + "', @sysInsertedDt = '" + @[User::SysInsertedDt] + "';"
 ```
@@ -114,6 +114,12 @@ __Flat File Destination:__
 File destination is a variable comprised of the root file location (specified in the __Destinations__ section above), and the file naming convention, where yyyymmddhhmmss is replaced with the current timestamp.
 
 __Example File Destination:__ \\PDIFS\EntData\Imports\IN\Relex\RelexShelfEdgeLabels_IN_20250910083035.txt
+
+__Step: Execute SQL Statement Task: Log Processed Source File__
+Inserts log entry based on query variable, where the SourceFileName variable and the SysInsertedDt variable are from the ForEach loop
+```
+"INSERT INTO dbo.relex_outbound_shelf_edge_label_extract_log ( source_file_name, sys_inserted_dt, extracted_tsp ) VALUES ('" + @[User::SourceFileName] + "', '" + @[User::SysInsertedDt] + "', GETDATE() );"
+```
 
 # Deployment 
 
