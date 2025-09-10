@@ -28,11 +28,11 @@ RelexShelfEdgeLabels_IN_yyyymmddhhmmss.txt
 
 ## Destinations
 
-__Tempe:__ \\PDIFS\EntData\Imports\IN\Relex\
+__Tempe:__ \\\\PDIFS\EntData\Imports\IN\Relex\
 
-__Toronto:__ \\macs.local\pdientPRD\Internal\Com\Relex\in
+__Toronto:__ \\\\macs.local\pdientPRD\Internal\Com\Relex\in
 
-__Laval:__ \\couche-tard.local\PDISharePRD\Internal\Com\Relex\in
+__Laval:__ \\\\couche-tard.local\PDISharePRD\Internal\Com\Relex\in
 
 ## Sources
 
@@ -78,14 +78,14 @@ graph TD
 
 # Details
 
-__Step: Execute SQL Statment Task: Data Table Maintenance__
+## Step: Execute SQL Statment Task: Data Table Maintenance
 ```
-__EXEC dbo.SSIS_RelexShelfEdgeLabel_DataMaintenance__
+EXEC dbo.SSIS_RelexShelfEdgeLabel_DataMaintenance
 ```
 - Stored procedure will delete all records from dbo.relex_shelf_edge_labels where the sys_inserted_dt, converted to a date value, is more than seven days old
 - Stored procedure will delete all records from dbo.relex_shelf_edge_label_extract_log where no records in the relex_shelf_edge_labels database match the source_file_name and sys_inserted_dt
 
-__Step: Execute SQL Statement Task: Get Source Files to Process__
+## Step: Execute SQL Statement Task: Get Source Files to Process
 
 Selection:
 ```
@@ -99,24 +99,31 @@ WHERE NOT EXISTS
 )
 ORDER BY source_file_name DESC;
 ```
-__Step: ForEach Loop: For Each Unprocessed Source File__
+These results are assigned to the object source variable User::UnprocessSourceFiles
 
-__Data Flow Task: Get Data and Output to CSV__
+## Step: ForEach Loop: For Each Unprocessed Source File
 
-__OLE DB Source:__
+Variables are assigned from the source variable User::UnprocessSourceFiles, created in the previous step
+```
+User::SourceFileName Index: 0
+User::SysInsertedDt Index: 1
+```
+### Data Flow Task: Get Data and Output to CSV
 
-Selection based on query variable, where the SourceFileName variable and the SysInsertedDt variable are populated from the previous query in the ForEach loop
+#### OLE DB Source:
+
+Selection based on query variable, where the SourceFileName variable and the SysInsertedDt variable are populated from the variables assigned above
 ```
 "EXEC dbo.SSIS_RelexShelfEdgeLabelExtract @sourceFileName = '" + @[User::SourceFileName] + "', @sysInsertedDt = '" + @[User::SysInsertedDt] + "';"
 ```
-__Flat File Destination:__
+#### Flat File Destination:
 
 File destination is a variable comprised of the root file location (specified in the __Destinations__ section above), and the file naming convention, where yyyymmddhhmmss is replaced with the current timestamp.
 
-__Example File Destination:__ \\PDIFS\EntData\Imports\IN\Relex\RelexShelfEdgeLabels_IN_20250910083035.txt
+__Example File Destination:__ \\\\PDIFS\EntData\Imports\IN\Relex\RelexShelfEdgeLabels_IN_20250910083035.txt
 
-__Step: Execute SQL Statement Task: Log Processed Source File__
-Inserts log entry based on query variable, where the SourceFileName variable and the SysInsertedDt variable are from the ForEach loop
+### Execute SQL Statement Task: Log Processed Source File
+Inserts log entry based on query variable, using the same SourceFileName and SysInsertedDt variables above
 ```
 "INSERT INTO dbo.relex_outbound_shelf_edge_label_extract_log ( source_file_name, sys_inserted_dt, extracted_tsp ) VALUES ('" + @[User::SourceFileName] + "', '" + @[User::SysInsertedDt] + "', GETDATE() );"
 ```
